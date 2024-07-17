@@ -2,13 +2,12 @@
 
 namespace App\Service;
 
-//use ReflectionClass;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 abstract class AbstractService {
 
@@ -49,29 +48,4 @@ abstract class AbstractService {
     if($groups) return $this->serializer->deserialize($serializedData, $dto, 'json', ['groups' => $groups]);
     return $this->serializer->deserialize($serializedData, $dto, 'json');
   }
-
-  /* protected function setArrayValuesToEntity(array $data, object $entity): object {
-    foreach ($data as $key => $value) {
-      if (property_exists($entity::class, $key)) {
-        $setter = 'set' . ucfirst($key);
-        if (method_exists($entity, $setter)) {
-          $entity->$setter($value);
-        } else {
-          $entity->$key = $value;
-        }
-      }
-    }
-    return $entity;
-  }
-
-  protected function transferDtoPropertiesValuesToEntity(object $dto, object $entity): object {
-    $properties = get_object_vars($dto);
-    foreach ($properties as $key => $value) {
-      $setter = 'set' . ucfirst($key);
-      if (property_exists($entity, $key)) {
-        $entity->$setter($value);
-      }
-    }
-    return $entity;
-  } */
 }
