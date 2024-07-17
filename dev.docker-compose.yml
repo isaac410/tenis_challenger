@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./mysql_data:/var/lib/mysql
     networks:
       - network_tennis
 
@@ -35,7 +35,6 @@ services:
       - mysql
     ports:
       - "8000:8000"
-    #command: ["php", "bin/console", "server:start", "0.0.0.0:8000"]
     stdin_open: true
     tty: true
     networks:

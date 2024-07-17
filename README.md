@@ -1,28 +1,5 @@
 # Tenis Tournament
 
-## Creation of the project
-
-### Installed dependencies
-
-```bash
-composer create-project symfony/skeleton:"7.1.*" tenis_tournament
-composer require symfony/form
-composer require symfony/orm-pack
-composer require symfony/validator
-composer require symfony/serializer
-composer require symfony/security-csrf
-composer require symfony/serializer-pack
-composer require symfony/maker-bundle --dev
-composer require nelmio/api-doc-bundle
-composer require symfony/twig-bundle  # Necessary for Nelmio
-composer require symfony/asset  # Necessary for Nelmio
-```
-
-## Command for doctrine assistance
-```bash
-php bin/console list doctrine #(list doctrine commands)
-```
-
 ## Using the dev.docker-compose.yml file to build and deploy the project
 
 ### Build image
@@ -53,6 +30,38 @@ docker-compose -f dev.docker-compose.yml exec app php bin/console doctrine:migra
 ### Get dump schema
 ```bash
 docker-compose -f dev.docker-compose.yml exec app php bin/console doctrine:migrations:dump-schema
+```
+
+### How execute unitest
+```bash
+./vendor/bin/phpunit
+```
+
+# The project was deployed in Heroku
+[Visit the challenger](https://tenis-tournament-9f6bd0a93541.herokuapp.com/api/doc)
+
+# How was created the project
+
+## Installed dependencies
+
+```bash
+composer create-project symfony/skeleton:"7.1.*" tenis_tournament
+composer require symfony/form
+composer require symfony/orm-pack
+composer require symfony/validator
+composer require symfony/serializer
+composer require symfony/security-csrf
+composer require symfony/serializer-pack
+composer require nelmio/api-doc-bundle
+composer require symfony/maker-bundle --dev
+composer require --dev phpunit/phpunit
+composer require symfony/twig-bundle  # Necessary for Nelmio
+composer require symfony/asset  # Necessary for Nelmio
+```
+
+## Command for doctrine assistance
+```bash
+php bin/console list doctrine #(list doctrine commands)
 ```
 
 ## An evenlistener was created

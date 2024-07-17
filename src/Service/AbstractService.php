@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 abstract class AbstractService {
 
@@ -23,7 +24,7 @@ abstract class AbstractService {
 
   abstract public function getAndValidEntity(array $data, AbstractType $type, array $array, int $id): object;
 
-  protected function handleFormErrors($form) {
+  public function handleFormErrors($form) {
     $formErrors = $form->getErrors(true, true);
     $errorsArray = [];
     foreach ($formErrors as $error) {
@@ -32,18 +33,19 @@ abstract class AbstractService {
     throw new HttpException(Response::HTTP_BAD_REQUEST, json_encode(['errors' => $errorsArray]));
   }
 
-  protected function validateEntity(mixed $entity): void {
+  public function validateEntity(mixed $entity): ConstraintViolationListInterface {
     $errors = $this->validator->validate($entity);
     if (count($errors) > 0) throw new HttpException(
       Response::HTTP_CONFLICT, $errors[0]->getMessage()
     );
+    return $errors;
   }
 
-  protected function normalize($entity): array {
+  public function normalize($entity): array {
     return $this->normalize->normalize($entity);
   }
 
-  protected function filterPropeties(mixed $entity, string $dto, array $groups = null): object {
+  public function filterPropeties(mixed $entity, string $dto, array $groups = null): object {
     $serializedData = $this->serializer->serialize($entity, 'json');
     if($groups) return $this->serializer->deserialize($serializedData, $dto, 'json', ['groups' => $groups]);
     return $this->serializer->deserialize($serializedData, $dto, 'json');
