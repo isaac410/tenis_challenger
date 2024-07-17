@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+
+  mysql:
+    image: mysql:8.0.32
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 1efe16cafe
+      MYSQL_DATABASE: tenis_tournament
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - network_tennis
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ~/.composer/cache:/var/www/.composer/cache
+    environment:
+      APP_ENV: dev
+      API_BASE_URL: "http://localhost:8000"
+      APP_SECRET: 71e484e73f0f886a0e8a309fd3827b21
+      SERVER_VERSION: "8.0.32"
+      DATABASE_URL: "mysql://root:1efe16cafe@mysql:3306/tenis_tournament?serverVersion=8.0.32"
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    #command: ["php", "bin/console", "server:start", "0.0.0.0:8000"]
+    stdin_open: true
+    tty: true
+    networks:
+      - network_tennis
+
+volumes:
+  mysql_data:
+
+networks:
+  network_tennis:
+    driver: bridge

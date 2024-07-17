@@ -1,0 +1,12 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: 'Tenis Tournament Swagger'
+      description: 'Tenis Tournament API Documentation'
+      version: '1.0.0'
+    servers:
+      - url: '%env(resolve:API_BASE_URL)%'
+  areas:
+    path_patterns:
+      - ^/api(?!/doc$)
+
